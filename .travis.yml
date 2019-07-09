@@ -1,0 +1,56 @@
+language: generic
+
+services:
+- docker
+
+env:
+  global:
+    - GIT_REMOTE=$(git remote get-url origin)
+
+before_install:
+  - curl -s https://s3-api.us-geo.objectstorage.softlayer.net/armada-config/build-tools/build-tools.tar.gz |tar -xvz
+  - ./build-tools/install.sh
+
+script:
+  - export HASH=`git log --pretty=format:'%h' -n 1`
+  - docker build --build-arg BUILD_ID=${TRAVIS_BUILD_NUMBER} --build-arg LAST_COMMIT_ID=${HASH} --pull --rm -t "mckaymic/razeedemo:${TRAVIS_COMMIT}" .
+  - if [ -n "${TRAVIS_TAG}" ]; then docker tag mckaymic/razeedemo:${TRAVIS_COMMIT} mckaymic/razeedemo:${TRAVIS_TAG}; fi
+  - docker images
+  - ./build/process-template.sh kubernetes/razeedash/resource.yaml >/tmp/resource.yaml
+
+before_deploy:
+  - docker login -u="${QUAY_ID}" -p="${QUAY_TOKEN}" quay.io
+
+deploy:
+  # Deploy alpha builds
+  - provider: script
+    script: docker push "quay.io/razee/razeedash:${TRAVIS_TAG}"
+    skip_cleanup: true
+    on:
+      tags: true
+      condition: ${TRAVIS_TAG} =~ [0-9]+\.[0-9]+\.[0-9]+_[0-9]{3}
+  - provider: releases
+    file: /tmp/resource.yaml
+    skip_cleanup: true
+    draft: true
+    on:
+      tags: true
+      condition: ${TRAVIS_TAG} =~ [0-9]+\.[0-9]+\.[0-9]+_[0-9]{3}
+    api_key:
+      secure: "${GITHUB_TOKEN}"
+
+  # Deploy released builds
+  - provider: script
+    script: docker push "quay.io/razee/razeedash:${TRAVIS_TAG}"
+    skip_cleanup: true
+    on:
+      tags: true
+      condition: ${TRAVIS_TAG} =~ [0-9]+\.[0-9]+\.[0-9]+
+  - provider: releases
+    file: /tmp/resource.yaml
+    skip_cleanup: true
+    on:
+      tags: true
+      condition: ${TRAVIS_TAG} =~ [0-9]+\.[0-9]+\.[0-9]+
+    api_key:
+      secure: "${GITHUB_TOKEN}"
