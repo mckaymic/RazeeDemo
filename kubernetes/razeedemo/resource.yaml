@@ -2,7 +2,7 @@ apiVersion: v1
 kind: List
 metadata:
   name: razeedemo
-  namespace: razee
+  namespace: razeedemo
   annotations:
     version: "{{TRAVIS_COMMIT}}"
 items:
@@ -14,7 +14,7 @@ items:
         razee.io/git-repo: "{{{GIT_REMOTE}}}"
         razee.io/commit-sha: "{{TRAVIS_COMMIT}}"
       name: razeedemo
-      namespace: razee
+      namespace: razeedemo
     spec:
       replicas: 1
       revisionHistoryLimit: 0
@@ -29,10 +29,10 @@ items:
             app: razeedemo
           name: razeedemo
         spec:
-          containers:
-            image: "mckaymic/razeedemo:{{TRAVIS_TAG}}"
-            imagePullPolicy: Always
-            name: razeedemo
-            ports:
-            - containerPort: 3333
-              protocol: TCP
+          - containers:
+              image: "mckaymic/razeedemo:{{TRAVIS_TAG}}"
+              imagePullPolicy: Always
+              name: razeedemo
+              ports:
+              - containerPort: 80
+                protocol: TCP
