@@ -10,9 +10,10 @@ env:
 before_install:
   - curl -s https://s3-api.us-geo.objectstorage.softlayer.net/armada-config/build-tools/build-tools.tar.gz |tar -xvz
   - ./build-tools/install.sh
-  - npm install -g mustache
+  - npm install -g mustache htmllint
 
 script:
+  - htmllint html/*.html
   - docker build --pull --rm -t "mckaymic/razeedemo:${TRAVIS_COMMIT}" .
   - docker images
   - mkdir -p "/tmp/razeedemo"
