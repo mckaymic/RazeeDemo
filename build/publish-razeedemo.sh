@@ -19,6 +19,6 @@ set -e
 THIS_DIR=$(dirname "${BASH_SOURCE[0]}")
 
 docker push "mckaymic/razeedemo:${TRAVIS_COMMIT}"
-aws s3 --endpoint-url "${COS_ENDPOINT}"  cp "/tmp/razeedemo/resource.yaml" "s3://${BUCKET}/tmp/razeedemo/${TRAVIS_COMMIT}/resource.yaml" --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers
+aws s3 --endpoint-url "${COS_ENDPOINT}"  cp "/tmp/razeedemo/resource.yaml" "s3://${BUCKET}/razeedemo/${TRAVIS_COMMIT}/resource.yaml" --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers
 
 "${THIS_DIR}/publish-variant.sh"
