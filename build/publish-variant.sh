@@ -17,6 +17,7 @@
 
 export variant="${TRAVIS_COMMIT}"
 echo "Add variant ${variant} for flag razeedemo."
+export LD_PROJECT="razee-demo"
 export LD_FEATURE_FLAG="razeedemo"
 export LD_VERSION="${variant}"
 export LD_VARIATION_DESCRIPTION="${variant}"
