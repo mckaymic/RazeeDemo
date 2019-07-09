@@ -16,7 +16,7 @@ script:
   - docker build --build-arg BUILD_ID=${TRAVIS_BUILD_NUMBER} --build-arg LAST_COMMIT_ID=${HASH} --pull --rm -t "mckaymic/razeedemo:${TRAVIS_COMMIT}" .
   - if [ -n "${TRAVIS_TAG}" ]; then docker tag mckaymic/razeedemo:${TRAVIS_COMMIT} mckaymic/razeedemo:${TRAVIS_TAG}; fi
   - docker images
-  - ./build-tools/process.sh kubernetes/razeedash/resource.yaml
+  - ./build-tools/process.sh kubernetes/razeedemo/resource.yaml
 
 before_deploy:
   - docker login -u="${DOCKER_ID}" -p="${DOCKER_PASSWORD}"
