@@ -18,6 +18,7 @@ script:
   - docker images
   - mkdir -p "/tmp/razeedemo"
   - ./build/process-template.sh kubernetes/razeedemo/resource.yaml >/tmp/razeedemo/resource.yaml
+  - ls -l /tmp/razeedemo
 
 before_deploy:
   - docker login -u="${DOCKER_ID}" -p="${DOCKER_PASSWORD}"
