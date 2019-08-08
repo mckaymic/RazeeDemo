@@ -29,10 +29,10 @@ items:
             app: razeedemo
           name: razeedemo
         spec:
-          - containers:
-              image: "mckaymic/razeedemo:{{TRAVIS_COMMIT}}"
-              imagePullPolicy: Always
-              name: razeedemo
-              ports:
-              - containerPort: 80
-                protocol: TCP
+          containers:
+          - image: "mckaymic/razeedemo:{{TRAVIS_COMMIT}}"
+            imagePullPolicy: Always
+            name: razeedemo
+            ports:
+            - containerPort: 80
+              protocol: TCP
