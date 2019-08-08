@@ -30,7 +30,7 @@ items:
           name: razeedemo
         spec:
           - containers:
-              image: "mckaymic/razeedemo:{{TRAVIS_TAG}}"
+              image: "mckaymic/razeedemo:{{TRAVIS_COMMIT}}"
               imagePullPolicy: Always
               name: razeedemo
               ports:
