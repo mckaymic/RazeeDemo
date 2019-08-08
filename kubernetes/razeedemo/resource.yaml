@@ -2,7 +2,7 @@ apiVersion: v1
 kind: List
 metadata:
   name: razeedemo
-  namespace: razeedemo
+  namespace: default
   annotations:
     version: "{{TRAVIS_COMMIT}}"
 items:
