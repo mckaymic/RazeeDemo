@@ -14,7 +14,7 @@ items:
         razee.io/git-repo: "{{{GIT_REMOTE}}}"
         razee.io/commit-sha: "{{TRAVIS_COMMIT}}"
       name: razeedemo
-      namespace: razeedemo
+      namespace: default
     spec:
       replicas: 1
       revisionHistoryLimit: 0
